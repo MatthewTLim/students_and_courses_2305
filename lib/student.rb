@@ -8,7 +8,7 @@ class Student
     @scores = []
   end
 
-  def  log_score(score)
+  def log_score(score)
     @scores << score
   end
 
