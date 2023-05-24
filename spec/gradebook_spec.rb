@@ -41,12 +41,18 @@ describe "#list_all_students" do
     student3 = Student.new({name: "Olivia", age: 28})
     student4 = Student.new({name: "Max", age: 27})
 
+    gradebook.add_course(course1)
+    gradebook.add_course(course2)
+
     course1.enroll(student1)
     course1.enroll(student2)
     course2.enroll(student3)
     course2.enroll(student4)
 
-    expect(gradebook.list_all_students).to eq({course1: student1, student2 course2: student3, student4})
+    expect(gradebook.list_all_students).to eq({
+      "Calculus" => [student1, student2],
+      "English" => [student3, student4]
+  })
   end
 end
 
@@ -60,16 +66,30 @@ describe "#students_below" do
     student3 = Student.new({name: "Olivia", age: 28})
     student4 = Student.new({name: "Max", age: 27})
 
+    gradebook.add_course(course1)
+    gradebook.add_course(course2)
+
     course1.enroll(student1)
     course1.enroll(student2)
     course2.enroll(student3)
     course2.enroll(student4)
 
     student1.log_score(100)
-    student2.log_score(90)
-    student3.log_score(80)
-    student4.log_score(70)
+    student1.log_score(90)
+    student1.log_score(85)
 
-    expect(gradebook.students_below(90)).to eq([student3, student4])
+    student2.log_score(90)
+    student2.log_score(82)
+    student2.log_score(71)
+
+    student3.log_score(80)
+    student3.log_score(74)
+    student3.log_score(69)
+
+    student4.log_score(70)
+    student4.log_score(54)
+    student4.log_score(45)
+
+    expect(gradebook.students_below(90)).to eq([student2, student3, student4])
   end
 end
